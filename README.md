@@ -2,7 +2,7 @@
 
 Introduction
 -------------
-![Alt text](art/sample.gif?raw=true)
+<img src="art/sample.gif" width="336">
 
 Create public and private keys from [MARVEL API](https://developer.marvel.com/)
 
@@ -12,7 +12,7 @@ This app supports offline mode and orientation change.
 
 The app is composed of 2 main screens.
 #### ComicListFragment
-![Alt text](art/list.png?raw=true "Comic List")
+<img src="art/list.png" width="336">
 
 Allows you to list comic based on the year selection on Marvel API.
 Each result is kept in the database in `PaginationEntity` table where
@@ -25,6 +25,8 @@ Database is updated with the new list of comic ids.
 **NOTE** The UI currently loads all `ComicEntity` items at once.
 
 #### ComicDetailFragment
+<img src="art/detail.png" width="336">
+
 ![Alt text](art/detail.png?raw=true "Comic Detail")
 
 This fragment displays the details of a comic and respective characters(if any).
