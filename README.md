@@ -60,9 +60,9 @@ and we heavily relied on
 boiler-plate code.
 
 Also, we have used following tools as :
-* [Retrofit][retrofit] for REST api communication
-* [Glide][glide] for image loading
-* [Timber][timber] for logging
+* [Retrofit](https://square.github.io/retrofit/) for REST api communication
+* [Glide](https://bumptech.github.io/glide/) for image loading
+* [Timber](https://github.com/JakeWharton/timber) for logging
 
 ## Kotlin
 
