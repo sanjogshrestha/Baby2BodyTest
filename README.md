@@ -11,7 +11,7 @@ Listing comics based on year. Currently showing the list from 1950 to current ye
 This app supports offline mode and orientation change.
 
 The app is composed of 2 main screens.
-#### ComicListFragment
+## ComicListFragment
 <img src="art/list.png" width="336">
 
 Allows you to list comic based on the year selection on Marvel API.
@@ -24,10 +24,8 @@ Database is updated with the new list of comic ids.
 
 **NOTE** The UI currently loads all `ComicEntity` items at once.
 
-#### ComicDetailFragment
+## ComicDetailFragment
 <img src="art/detail.png" width="336">
-
-![Alt text](art/detail.png?raw=true "Comic Detail")
 
 This fragment displays the details of a comic and respective characters(if any).
 
