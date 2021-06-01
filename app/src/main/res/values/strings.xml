@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">Baby2BodyTest</string>
+
+    <string name="no_data_found">No data found</string>
+    <string name="loading_label">Loading</string>
+
+    <string name="transition_comic_thumbnail" translatable="false">transition_comic_thumbnail</string>
+    <string name="no_description_found">No description found</string>
+    <string name="creators_label">Creators</string>
+    <string name="info_label">Info</string>
+    <string name="try_again">Try Again</string>
+    <string name="images_label">Images</string>
+    <string name="character_label">Characters</string>
+    <string name="menu_calendar">Calendar</string>
+    <string name="please_select_year_to_render_comics">* Please select year to render comics</string>
+    <string name="select_year">Select Year</string>
+    <string name="marvel_label">Marvel</string>
+    <string name="year_label">Year</string>
+    <string name="no_comics_found_error_label">No comics found.</string>
+</resources>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="dimen_8">8dp</dimen>
+    <dimen name="dimen_10">10dp</dimen>
+    <dimen name="dimen_5">5dp</dimen>
+    <dimen name="dimen_20">20dp</dimen>
+    <dimen name="text_margin">16dp</dimen>
+    <dimen name="cardview_default_elevation">5dp</dimen>
+    <dimen name="cardview_default_radius">5dp</dimen>
+
+    <dimen name="comic_list_item_height">220dp</dimen>
+    <dimen name="comic_list_item_width">190dp</dimen>
+
+    <dimen name="view_horizontal_margin">16dp</dimen>
+    <dimen name="view_vertical_margin">16dp</dimen>
+    <dimen name="app_bar_height_extended">256dp</dimen>
+    <dimen name="grid_space">4dp</dimen>
+
+</resources>

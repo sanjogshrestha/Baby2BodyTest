@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/mainLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/bottomSheetDialog"
+        tools:visibility="visible"
+        app:behavior_hideable="true"
+        android:paddingStart="@dimen/dimen_10"
+        android:paddingEnd="@dimen/dimen_10"
+        android:background="?colorSurface"
+        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/labelTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:text="@string/select_year"
+            android:textColor="@color/white"
+            style="@style/TextAppearance.AppCompat.Body1"
+            android:textStyle="bold"
+            android:paddingTop="@dimen/dimen_10"
+            android:paddingBottom="0dp"
+            app:layout_constraintBottom_toTopOf="@+id/yearPicker"/>
+
+        <NumberPicker
+            android:id="@+id/yearPicker"
+            android:theme="@style/numberPickerStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:descendantFocusability="blocksDescendants"
+            android:layout_margin="@dimen/dimen_5"
+            app:layout_constraintTop_toBottomOf="@+id/labelTextView"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/warningMessageView"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/warningMessageView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/yearPicker"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:textColor="@android:color/holo_red_light"
+            android:paddingBottom="@dimen/dimen_10"
+            android:gravity="center_vertical"
+            style="@style/TextAppearance.AppCompat.Caption"
+            android:text="@string/please_select_year_to_render_comics"/>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/buttonLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="end"
+            app:layout_constraintTop_toBottomOf="@+id/warningMessageView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent">
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/negativeButton"
+                style="@style/NegativeButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:textAllCaps="false"
+                android:text="@android:string/cancel" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/okButton"
+                style="@style/PositiveButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:textAllCaps="false"
+                android:text="@android:string/ok" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

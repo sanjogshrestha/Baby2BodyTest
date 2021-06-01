@@ -1,0 +1,337 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="com.sanjog.baby2bodytest.data.entity.ComicEntity"/>
+        <import type="com.sanjog.baby2bodytest.data.entity.CharactersEntity"/>
+        <import type="com.sanjog.baby2bodytest.data.entity.CreatorsEntity"/>
+        <import type="android.text.TextUtils" />
+        <import type="androidx.lifecycle.LiveData"/>
+        <import type="com.sanjog.baby2bodytest.utils.DateUtils"/>
+        <import type="java.util.List" />
+        <import type="com.sanjog.baby2bodytest.data.Resource"/>
+
+        <variable
+            name="entity"
+            type="LiveData&lt;ComicEntity>" />
+
+        <variable
+            name="creatorsEntity"
+            type="List&lt;CreatorsEntity>" />
+
+        <variable
+            name="charactersEntity"
+            type="Resource&lt;List&lt;CharactersEntity>>" />
+    </data>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/app_bar_height_extended"
+            android:background="@android:color/transparent"
+            android:fitsSystemWindows="true">
+
+            <com.google.android.material.appbar.CollapsingToolbarLayout
+                android:id="@+id/toolbar_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fitsSystemWindows="true"
+                android:theme="@style/CustomToolbarTheme"
+                app:contentScrim="?attr/colorPrimary"
+                app:expandedTitleTextAppearance="@style/TextAppearance.AppCompat.Headline"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed"
+                app:title="@{entity.title}">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/coverImageView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    app:layout_collapseMode="parallax"
+                    android:transitionName="@string/transition_comic_thumbnail"
+                    app:loadImage="@{entity.thumbnail}"
+                    tools:src="@tools:sample/avatars" />
+
+                <androidx.appcompat.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    android:theme="@style/AppTheme.AppBarOverlay"
+                    app:layout_collapseMode="pin"
+                    app:navigationIcon="@drawable/ic_back_with_background"
+                    app:popupTheme="@style/AppTheme.PopupOverlay" />
+            </com.google.android.material.appbar.CollapsingToolbarLayout>
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/view_horizontal_margin"
+                android:layout_marginBottom="@dimen/view_horizontal_margin"
+                android:layout_marginStart="@dimen/view_horizontal_margin">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/descriptionTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginEnd="@dimen/view_horizontal_margin"
+                    android:textColor="@color/white"
+                    android:text="@{TextUtils.isEmpty(entity.description) ? @string/no_description_found : entity.description}"
+                    tools:text="@tools:sample/lorem"
+                    android:textStyle="bold"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/publishedTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@+id/descriptionTextView"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginEnd="@dimen/view_horizontal_margin"
+                    android:textColor="@color/white"
+                    android:layout_marginTop="@dimen/dimen_10"
+                    android:text="@{`Published : ` +DateUtils.INSTANCE.getYMD(entity.onSaleDate)}"
+                    tools:text="Published : Date"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/creatorCardView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@+id/publishedTextView"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginEnd="@dimen/view_horizontal_margin"
+                    app:cardCornerRadius="@dimen/cardview_default_radius"
+                    android:layout_marginTop="@dimen/dimen_10"
+                    app:cardBackgroundColor="@android:color/white"
+                    app:cardElevation="0dp">
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="@dimen/text_margin">
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/colorPrimary"
+                            android:text="@string/creators_label"
+                            android:textStyle="bold"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Title"/>
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/emptyCreatorsTextView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/no_data_found"
+                            android:drawableStart="@drawable/ic_sad"
+                            android:drawablePadding="@dimen/dimen_10"
+                            android:textColor="@color/colorPrimary"
+                            app:visibleGone="@{(creatorsEntity.size() == 0)}"
+                            android:drawableTint="@color/colorPrimary"
+                            tools:visibility="gone"
+                            android:layout_marginTop="@dimen/dimen_10"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Caption"/>
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/creatorsRecyclerView"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:nestedScrollingEnabled="false"
+                            android:layout_marginTop="@dimen/dimen_10"
+                            tools:listitem="@layout/layout_creator_view"
+                            tools:itemCount="3"
+                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                            android:orientation="vertical"/>
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+                </androidx.cardview.widget.CardView>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/imageTitleTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@+id/creatorCardView"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginEnd="@dimen/view_horizontal_margin"
+                    android:layout_marginTop="@dimen/dimen_10"
+                    android:textColor="@color/white"
+                    android:text="@string/images_label"
+                    tools:text="@string/images_label"
+                    android:textStyle="bold"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Title"/>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/emptyImagesTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/no_data_found"
+                    android:drawableStart="@drawable/ic_sad"
+                    android:drawablePadding="@dimen/dimen_10"
+                    android:gravity="center"
+                    app:layout_constraintTop_toBottomOf="@+id/imageTitleTextView"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:textColor="@color/white"
+                    app:visibleGone="@{(entity.images.size == 0)}"
+                    tools:visibility="gone"
+                    android:layout_marginTop="@dimen/dimen_10"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Caption"/>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/imagesRecyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@+id/emptyImagesTextView"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    tools:listitem="@layout/layout_image_view"
+                    tools:itemCount="5"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    android:orientation="horizontal"/>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/charactersTitleTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@+id/imagesRecyclerView"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginEnd="@dimen/view_horizontal_margin"
+                    android:layout_marginTop="@dimen/dimen_10"
+                    android:textColor="@color/white"
+                    android:text="@string/character_label"
+                    tools:text="@string/character_label"
+                    android:textStyle="bold"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Title"/>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/emptyCharactersTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/no_data_found"
+                    android:drawableStart="@drawable/ic_sad"
+                    android:drawablePadding="@dimen/dimen_10"
+                    android:gravity="center"
+                    app:layout_constraintTop_toBottomOf="@+id/charactersTitleTextView"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:textColor="@color/white"
+                    app:visibleGone="@{(charactersEntity.data.size == 0)}"
+                    tools:visibility="gone"
+                    android:layout_marginTop="@dimen/dimen_10"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Caption"/>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/charactersRecyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dimen_10"
+                    app:layout_constraintTop_toBottomOf="@+id/emptyCharactersTextView"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    tools:listitem="@layout/layout_image_view"
+                    tools:itemCount="5"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    android:orientation="horizontal"/>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/detailsTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@+id/charactersRecyclerView"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginEnd="@dimen/view_horizontal_margin"
+                    android:layout_marginTop="@dimen/dimen_10"
+                    android:textColor="@color/white"
+                    android:text="@string/info_label"
+                    tools:text="@string/info_label"
+                    android:textStyle="bold"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Title"/>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/formatTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@+id/detailsTextView"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginEnd="@dimen/view_horizontal_margin"
+                    android:textColor="@color/white"
+                    android:layout_marginTop="@dimen/dimen_10"
+                    android:text="@{`Format : ` + entity.format}"
+                    tools:text="Format : Comic"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/printPriceTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@+id/formatTextView"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginEnd="@dimen/view_horizontal_margin"
+                    android:textColor="@color/white"
+                    android:layout_marginTop="@dimen/dimen_5"
+                    android:text="@{`Print Price : $` + entity.printPrice}"
+                    tools:text="Print Price : $4.99"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/digitalPrintPriceTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@+id/printPriceTextView"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginEnd="@dimen/view_horizontal_margin"
+                    android:textColor="@color/white"
+                    android:layout_marginTop="@dimen/dimen_5"
+                    android:text="@{`Digital Print Price : $` + entity.digitalPrintPrice}"
+                    tools:text="Digital Print Price : $4.99"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/upcTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@+id/digitalPrintPriceTextView"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginEnd="@dimen/view_horizontal_margin"
+                    android:textColor="@color/white"
+                    android:layout_marginTop="@dimen/dimen_5"
+                    android:text="@{`UPC : ` + entity.upc}"
+                    app:visibleGone="@{!TextUtils.isEmpty(entity.upc)}"
+                    tools:text="UPC : 75960620122800111"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/focDateTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@+id/upcTextView"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginEnd="@dimen/view_horizontal_margin"
+                    android:textColor="@color/white"
+                    android:layout_marginTop="@dimen/dimen_5"
+                    android:text="@{`FOC Date : ` +DateUtils.INSTANCE.getYMD(entity.focDate)}"
+                    tools:text="FOC Date : Date"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.core.widget.NestedScrollView>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>

@@ -1,0 +1,160 @@
+import java.text.SimpleDateFormat
+
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+    id 'kotlin-kapt'
+    id 'kotlin-android-extensions'
+    id 'androidx.navigation.safeargs.kotlin'
+    id 'com.google.android.gms.oss-licenses-plugin'
+}
+
+android {
+    compileSdkVersion 30
+    buildToolsVersion "30.0.2"
+
+    defaultConfig {
+        applicationId "com.sanjog.baby2bodytest"
+        minSdkVersion 21
+        targetSdkVersion 30
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        debug {
+            debuggable true
+            applicationIdSuffix ".debug"
+            versionNameSuffix "-debug-build${buildTime()}"
+            testCoverageEnabled true
+            buildConfigField("String", "DATABASE_NAME", "\"Baby2Body.db\"")
+            buildConfigField("String", "MARVEL_PUBLIC_KEY", "\"" + getPublicApiKey() + "\"")
+            buildConfigField("String", "MARVEL_PRIVATE_KEY", "\"" + getPrivateApiKey() + "\"")
+            buildConfigField "String", 'BASE_MARVEL_URL', "\"https://gateway.marvel.com/\""
+        }
+
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+
+    }
+
+    buildFeatures {
+        dataBinding = true
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+
+    sourceSets {
+        androidTest.java.srcDirs += "src/test-common/java"
+        test.java.srcDirs += "src/test-common/java"
+        androidTest.assets.srcDirs += files("$projectDir/schemas".toString())
+    }
+}
+
+def getPublicApiKey() {
+    Properties keysProperties = getKeyProperties()
+    return keysProperties['MARVEL_PUBLIC_KEY']
+}
+
+def getPrivateApiKey() {
+    Properties keysProperties = getKeyProperties()
+    return keysProperties['MARVEL_PRIVATE_KEY']
+}
+
+private Properties getKeyProperties() {
+    def keysFile = file("keystore.properties")
+    def keysProperties = new Properties()
+    keysProperties.load(new FileInputStream(keysFile))
+    return keysProperties
+}
+
+static def buildTime() {
+    def df = new SimpleDateFormat("yyyyMMddHHmm")
+    return df.format(new Date())
+}
+
+dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
+    implementation "com.google.android.material:material:$rootProject.materialVersion"
+    implementation "org.jetbrains.kotlin:kotlin-reflect:$rootProject.kotlinReflectVersion"
+
+    //Architecture Component
+    implementation "androidx.lifecycle:lifecycle-extensions:$rootProject.lifecycleExtensionVersion"
+    implementation "androidx.navigation:navigation-fragment-ktx:$rootProject.ktxNavigationFragmentVersion"
+    implementation "androidx.navigation:navigation-ui-ktx:$rootProject.ktxUINavigationVersion"
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$rootProject.lifecycleVersion"
+    implementation "androidx.lifecycle:lifecycle-common-java8:$rootProject.lifecycleVersion"
+    implementation "androidx.appcompat:appcompat:$rootProject.appCompatVersion"
+    implementation "androidx.recyclerview:recyclerview:$rootProject.recyclerViewVersion"
+    implementation "androidx.core:core-ktx:$rootProject.ktxCoreVersion"
+    implementation "androidx.constraintlayout:constraintlayout:$rootProject.constraintLayoutVersion"
+    implementation "androidx.fragment:fragment-ktx:$rootProject.fragmentVersion"
+    implementation "androidx.navigation:navigation-fragment-ktx:$rootProject.navigationFragmentVersion"
+    implementation "androidx.navigation:navigation-ui-ktx:$rootProject.navigationFragmentVersion"
+
+    //RX
+    implementation "io.reactivex.rxjava2:rxandroid:$rootProject.rxjava2Version"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:$rootProject.rxjava2AdapterVersion"
+
+    //Networking
+    implementation "com.google.code.gson:gson:$rootProject.gsonVersion"
+    implementation "com.squareup.retrofit2:retrofit:$rootProject.retrofitVersion"
+    implementation "com.squareup.retrofit2:converter-gson:$rootProject.retrofitVersion"
+    implementation "com.squareup.okhttp3:okhttp:$rootProject.okhttpVersion"
+    implementation "com.squareup.okhttp3:logging-interceptor:$rootProject.okhttpVersion"
+
+    //Room
+    implementation "androidx.room:room-runtime:$rootProject.roomVersion"
+    implementation "androidx.room:room-ktx:$rootProject.roomVersion"
+    kapt "androidx.room:room-compiler:$rootProject.roomVersion"
+    implementation "androidx.room:room-rxjava2:$rootProject.roomVersion"
+
+    //Dagger2
+    implementation "com.google.dagger:dagger:$rootProject.daggerVersion"
+    kapt "com.google.dagger:dagger-compiler:$rootProject.daggerVersion"
+
+    //Glide
+    implementation "com.github.bumptech.glide:glide:$rootProject.glideVersion"
+    annotationProcessor "com.github.bumptech.glide:compiler:$rootProject.glideVersion"
+
+    //Timber
+    implementation "com.jakewharton.timber:timber:$rootProject.timberVersion"
+
+    //Swipelayout
+    implementation "com.daimajia.swipelayout:library:$rootProject.swipelayoutVersion"
+
+    //OSS-licenses
+    implementation "com.google.android.gms:play-services-oss-licenses:$rootProject.ossLicenseVersion"
+
+    //Bugfender
+    implementation 'com.bugfender.sdk:android:3.+'
+
+    //Arch Core Testing
+    androidTestImplementation "androidx.arch.core:core-testing:$rootProject.archCoreVersion"
+    testImplementation "androidx.arch.core:core-testing:$rootProject.archCoreVersion"
+
+    //Test
+    androidTestImplementation "androidx.test:core:$rootProject.testCoreVersion"
+    androidTestImplementation "androidx.test.ext:junit:$rootProject.jUnitVersion"
+    androidTestImplementation "androidx.test:rules:$rootProject.testRulesVersion"
+    androidTestImplementation "androidx.test:runner:$rootProject.testRunnerVersion"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$rootProject.testEspressoVersion"
+    implementation "androidx.fragment:fragment-testing:$rootProject.fragmentVersion"
+
+    testImplementation 'junit:junit:4.+'
+
+    androidTestImplementation "org.mockito:mockito-core:$rootProject.mockitoVersion"
+    testImplementation "org.mockito:mockito-core:$rootProject.mockitoVersion"
+    androidTestImplementation "com.squareup.okhttp3:mockwebserver:$rootProject.mockWebServerVersion"
+    testImplementation "com.squareup.okhttp3:mockwebserver:$rootProject.mockWebServerVersion"
+}

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <import type="com.sanjog.baby2bodytest.data.entity.ComicEntity"/>
+
+        <variable
+            name="entity"
+            type="ComicEntity" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="@dimen/comic_list_item_width"
+        android:layout_height="@dimen/comic_list_item_height"
+        android:layout_margin="@dimen/dimen_8"
+        android:background="@color/white">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/imageView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:src="@tools:sample/avatars"
+            android:padding="@dimen/dimen_5"
+            android:scaleType="fitXY"
+            android:transitionName="@string/transition_comic_thumbnail"
+            app:loadImage="@{entity.thumbnail}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

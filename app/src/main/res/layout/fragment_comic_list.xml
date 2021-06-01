@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <import type="android.view.View" />
+        <import type="java.util.List" />
+        <import type="com.sanjog.baby2bodytest.data.enums.Status"/>
+        <import type="com.sanjog.baby2bodytest.data.Resource"/>
+        <import type="com.sanjog.baby2bodytest.data.entity.ComicEntity"/>
+        <import type="androidx.lifecycle.LiveData"/>
+        <variable
+            name="loadingMore"
+            type="boolean" />
+
+        <variable
+            name="callback"
+            type="com.sanjog.baby2bodytest.utils.RetryCallback" />
+
+        <variable
+            name="resource"
+            type="Resource" />
+
+        <variable
+            name="viewModel"
+            type="com.sanjog.baby2bodytest.view.list.ComicListViewModel"/>
+
+        <variable
+            name="paginateResult"
+            type="LiveData&lt;Resource&lt;List&lt;ComicEntity>>>" />
+    </data>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/parentLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:theme="@style/AppTheme.Toolbar"
+                app:contentInsetLeft="0dp"
+                app:contentInsetStartWithNavigation="0dp"
+                android:background="#000000">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/marvel_label"
+                        android:layout_alignParentStart="true"
+                        android:textColor="@color/colorAccent"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Title" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/calendarYear"
+                        android:layout_centerVertical="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawableStart="@drawable/ic_calendar"
+                        android:drawablePadding="@dimen/dimen_10"
+                        android:layout_toStartOf="@+id/overflowMenu"
+                        android:textColor="@color/white"
+                        android:text="@string/year_label"
+                        android:foreground="?attr/selectableItemBackground"
+                        android:gravity="center"
+                        android:layout_marginEnd="@dimen/dimen_10"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/overflowMenu"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        app:srcCompat="@drawable/ic_overflow"
+                        android:layout_centerVertical="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/dimen_5"
+                        android:foreground="?attr/selectableItemBackground"
+                        android:layout_alignParentEnd="true"/>
+                </RelativeLayout>
+            </androidx.appcompat.widget.Toolbar>
+
+            <com.sanjog.baby2bodytest.utils.AutoFitRecyclerView
+                android:id="@+id/comicRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:orientation="horizontal"
+                tools:itemCount="10"
+                app:minColumnWidth="@dimen/comic_list_item_width"
+                tools:listitem="@layout/layout_comic_view"
+                android:layout_marginBottom="@dimen/dimen_8"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/load_more_bar"
+                app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+
+            <androidx.core.widget.ContentLoadingProgressBar
+                style="?android:attr/progressBarStyleHorizontal"
+                android:indeterminateTint="@color/colorAccent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:indeterminate="true"
+                android:id="@+id/load_more_bar"
+                app:visibleGone="@{loadingMore}"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/no_comics_found_error_label"
+                android:drawableStart="@drawable/ic_sad"
+                android:drawablePadding="@dimen/dimen_10"
+                android:id="@+id/no_results_text"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                android:textColor="#CCCCCC"
+                android:gravity="center"
+                tools:visibility="gone"
+                app:visibleGone="@{paginateResult.status == Status.SUCCESS &amp;&amp; paginateResult.data.size == 0}"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent" />
+
+            <include
+                android:id="@+id/emptyLayout"
+                layout="@layout/layout_empty_view"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:callback="@{() -> callback.retry()}"
+                app:resource="@{(Resource) paginateResult}"
+                app:dataIsNull="@{paginateResult.data == null || paginateResult.data.size() == 0}"
+                tools:visibility="gone" />
+
+            <include
+                android:id="@+id/progressBar"
+                layout="@layout/layout_loading_view"
+                tools:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:resource="@{(Resource) paginateResult}" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>

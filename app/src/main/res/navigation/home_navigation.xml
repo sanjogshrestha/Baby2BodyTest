@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/home_navigation"
+    app:startDestination="@id/comicListFragment">
+
+    <fragment
+        android:id="@+id/comicListFragment"
+        android:name="com.sanjog.baby2bodytest.view.list.ComicListFragment"
+        android:label=""
+        tools:layout="@layout/fragment_comic_list">
+        <action
+            android:id="@+id/action_comicListFragment_to_comicDetailFragment"
+            app:destination="@id/comicDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/comicDetailFragment"
+        android:name="com.sanjog.baby2bodytest.view.detail.ComicDetailFragment"
+        android:label=""
+        tools:layout="@layout/fragment_comic_detail">
+        <argument
+            android:name="comicID"
+            app:argType="integer" />
+        <action
+            android:id="@+id/action_comicDetailFragment_to_fullScreenImageFragment"
+            app:destination="@id/fullScreenImageFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/fullScreenImageFragment"
+        android:name="com.sanjog.baby2bodytest.view.image.FullScreenImageFragment"
+        android:label=""
+        tools:layout="@layout/fragment_image_full_screen">
+        <argument
+            android:name="urlList"
+            app:argType="string" />
+        <argument
+            android:name="hasMultipleItems"
+            app:argType="boolean"
+            android:defaultValue="false" />
+    </fragment>
+
+</navigation>
